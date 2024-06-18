@@ -1,0 +1,70 @@
+
+#server:
+#  port: 8080
+
+spring:
+  application:
+    name: spring-shop #Starting StartShoppingApplication ?? ???? ?????
+
+  devtools:
+    restart:
+      enabled: true # ????? ? ? ?? ????? ???
+
+    livereload:
+      enabled: true
+
+  thymeleaf:
+    cache: false # ??? ?? ???
+
+  security:
+    user:
+      name: co
+      password: 12
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/shopjpa?serverTimezone=Asia/Seoul
+    username: shopjpa
+    password: cos1234
+
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy # ????? ???? ??? ??
+    show-sql: true # SQL ?? ???
+    properties:
+      hibernate:
+        format_sql: true # ?? ???? ???
+    database-platform: org.hibernate.dialect.MySQL8Dialect # Mysql8 ?? ??
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB # ??? ???? ?? ???
+
+
+
+
+  ####################################
+  # ?? ??? ??
+  ####################################
+itemImgLocation: C:/shopping/item
+uploadPath: file:///C:/shopping/
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
+
+
+---
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
