@@ -1,7 +1,6 @@
 package com.example.shoppingre.service;
 
 
-import com.example.shoppingre.dto.JoinDTO;
 import com.example.shoppingre.entity.UserEntity;
 import com.example.shoppingre.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
