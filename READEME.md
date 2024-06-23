@@ -79,3 +79,16 @@ ajax 요청 같은경우는 밑의 방식처럼 처리할 수 있다
 
 Name for argument of type [java.lang.String] not specified, and parameter name information not available via reflection. Ensure that the compiler uses the '-parameters' flag
 이렇나 에러가 뜨면 requestparam으로 명칭을똑같이 맞춰주든가 pathvariable써서 똑같이 맞춰주든가 해야한다
+
+
+
+
+//url 경로
+URL이 중복되어 http://localhost:8080/member/member/memberRegist와 같은 형식으로 나타나는 문제는 링크를 생성할 때 경로를 절대 경로로 지정하지 않아서 발생합니다. HTML a 태그의 href 속성에 경로를 지정할 때, 절대 경로와 상대 경로의 차이를 이해하는 것이 중요합니다.
+
+절대 경로 vs 상대 경로
+절대 경로: 웹사이트의 루트 디렉토리(/)를 기준으로 경로를 지정합니다.
+예: /member/memberRegist
+상대 경로: 현재 URL을 기준으로 경로를 지정합니다.
+예: member/memberRegist
+지금 주어진 코드에서 상대 경로를 사용하고 있기 때문에, 현재 페이지의 URL을 기준으로 경로가 해석됩니다. 따라서, /member 페이지에서 상대 경로 member/memberRegist를 사용하면, 현재 페이지 URL에 상대 경로가 추가되어 /member/member/memberRegist가 됩니다.

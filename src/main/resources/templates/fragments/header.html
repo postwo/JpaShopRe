@@ -43,6 +43,12 @@
                     <li class="nav-item" sec:authorize="isAnonymous()">
                         <a class="nav-link active" aria-current="page" href="/member/userAgree">회원가입</a>
                     </li>
+
+                    <!-- 나중에 admin으로 변경-->
+                    <li class="nav-item" sec:authorize="isAnonymous()">
+                        <a class="nav-link active" aria-current="page" href="/member/memberList">memberlist</a>
+                    </li>
+
                     <li class="nav-item" sec:authorize="isAuthenticated()">
                         <a class="nav-link active" aria-current="page" href="/member/logout">로그아웃</a>
                     </li>
