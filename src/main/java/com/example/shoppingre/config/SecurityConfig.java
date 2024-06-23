@@ -33,12 +33,12 @@ public class SecurityConfig {
                 .csrf((auth) -> auth.disable());
 
 
-        //경로별 인가 작업
-        http
-                .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/member/**","/login", "/", "/join").permitAll()
-                        .requestMatchers("/admin").hasRole("ADMIN")
-                        .anyRequest().authenticated());
+        // 각 페이지에 대한 접근 권한 설정
+        http.authorizeHttpRequests(request -> request
+                .requestMatchers("/css/**", "/js/**", "/img/**","/error").permitAll() //"/error"999에러 해결
+                .requestMatchers("/", "/member/**", "/item/**", "/images/**","/register/**","/user/**").permitAll() //ajax 요청명도 여기다 써줘야한다
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated());
 
 
         return http.build();

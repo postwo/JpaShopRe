@@ -8,6 +8,9 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!--주소 api -->
+    <script src="/js/daumAddressScript.js"></script> <!-- 기본 경로에 static이 붙어 있기 붙일필요가 없다(중요) 주소 api -->
+
     <!-- 사용자 CSS 추가 -->
     <th:block layout:fragment="css">
         <style>
@@ -19,90 +22,84 @@
 
     <!-- 사용자 스크립트 추가 -->
     <th:block layout:fragment="script">
-
-
         <script th:inline="javascript">
             $(document).ready(function(){
-                let errorMessage = [[${errorMessage}]];  // [[${errorMessage}]] : 변수 내용 출력
+                let errorMessage = [[${errorMessage}]];
                 if(errorMessage != null){
                     alert(errorMessage);
                 }
             });
         </script>
     </th:block>
-
-    <th:block layout:fragment="script">
-
-        <script th:inline="javascript">
-            $(document).ready(function(){
-                let errorMessage = [[${errorMessage}]];  // [[${errorMessage}]] : 변수 내용 출력
-                if(errorMessage != null){
-                    alert(errorMessage);
-                }
-            });
-        </script>
-    </th:block>
-
 </head>
 <body>
 <div layout:fragment="content">
-  회원등록 페이지입니다 <br />
+    <h2>회원등록 페이지입니다</h2> <br />
 
-    <form id="frm" action="/member/memberRegist" role="form" method="post" >
-    <div class="form-group mb-3">
-        <label th:for="memberName">이름</label>
-        <input type="text" name="memberName"   class="form-control" placeholder="이름을 입력해주세요"/><br />
-    </div>
+    <form id="frm" action="/member/memberRegist" role="form" method="post" th:object="${memberDTO}">
 
-    <div class="form-group mb-3">
-        <label th:for="memberEmail">이메일</label>
-        <input type="email" name="memberEmail" id="memberEmail"  class="form-control" placeholder="이메일을 입력해주세요" /><br />
-    </div>
+        <div class="from-group mb-3">
+            <label th:for="memberNum">회원번호(자동부여)</label>
+            <input type="text" id="memberNum" name="memberNum" readonly="readonly" th:value="${memberDTO.memberNum}"/><br />
+        </div>
 
+        <div class="form-group mb-3">
+            <label th:for="memberName">이름</label>
+            <input type="text" id="memberName" name="memberName" class="form-control" placeholder="이름을 입력해주세요" />
+            <span style="color:red" th:if="${#fields.hasErrors('memberName')}" th:errors="*{memberName}" class="fieldError"></span><br />
+        </div>
 
-    <div class="form-group mb-3">
-        <label th:for="memberPw">비밀번호</label>
-        <input type="password" name="memberPw" class="form-control" placeholder="비밀번호를 입력해주세요"/> <br />
-    </div>
+        <div class="form-group mb-3">
+            <label th:for="memberEmail">이메일</label>
+            <input type="email" id="memberEmail" name="memberEmail" class="form-control" placeholder="이메일을 입력해주세요" />
+            <span style="color:red" th:if="${#fields.hasErrors('memberEmail')}" th:errors="*{memberEmail}" class="fieldError"></span><br />
+        </div>
 
-    <div class="form-group mb-3">
-        <label th:for="memberPwCon">비밀번호 재확인</label>
-        <input type="password" name="memberPwCon" class="form-control" placeholder="재확인을 위해 비밀번호를 입력해주세요" /><br />
-    </div>
+        <div class="form-group mb-3">
+            <label th:for="memberPw">비밀번호</label>
+            <input type="password" id="memberPw" name="memberPw" class="form-control" placeholder="비밀번호를 입력해주세요" />
+            <span style="color:red" th:if="${#fields.hasErrors('memberPw')}" th:errors="*{memberPw}" class="fieldError"></span><br />
+        </div>
 
+        <div class="form-group mb-3">
+            <label th:for="memberPwCon">비밀번호 재확인</label>
+            <input type="password" id="memberPwCon" name="memberPwCon" class="form-control" placeholder="재확인을 위해 비밀번호를 입력해주세요" />
+            <span style="color:red" th:if="${#fields.hasErrors('memberPwCon')}" th:errors="*{memberPwCon}" class="fieldError"></span><br />
+        </div>
 
-    <div class="form-group mb-3">
-        <label th:for="memberAddr">주소</label>
-        <input type="text" name="memberAddr" id="sample4_roadAddress" class="form-control" onclick="execDaumPostcode();"
-               placeholder="주소를 입력해주세요" /><br />
-    </div>
+        <div class="form-group mb-3">
+            <label th:for="memberAddr">주소</label>
+            <input type="text" id="sample4_roadAddress" name="memberAddr" class="form-control" onclick="execDaumPostcode();" placeholder="주소를 입력해주세요" readonly="readonly"/>
+            <span style="color:red" th:if="${#fields.hasErrors('memberAddr')}" th:errors="*{memberAddr}" class="fieldError"></span><br />
+        </div>
 
-    <div class="form-group mb-3">
-        <label th:for="memberPost">우편번호</label>
-        <input type="text" name="memberPost" id="sample4_postcode" class="form-control" /><br />
-    </div>
+        <div class="form-group mb-3">
+            <label th:for="memberPost">우편번호</label>
+            <input type="text" id="sample4_postcode" name="memberPost" class="form-control" readonly="readonly" placeholder="우편번호를 입력해주세요"/><br />
+            <span style="color:red" th:if="${#fields.hasErrors('memberPost')}" th:errors="*{memberPost}" class="fieldError"></span><br />
+        </div>
 
-    <div class="form-group mb-3">
-        <label th:for="memberAddrDetail">회원상세주소</label>
-        <input type="text" name="memberAddrDetail"  class="form-control"/><br />
-    </div>
+        <div class="form-group mb-3">
+            <label th:for="memberAddrDetail">회원상세주소</label>
+            <input type="text" name="memberAddrDetail" class="form-control" placeholder="상세주소를 입력해주세요"/>
+            <span style="color:red" th:if="${#fields.hasErrors('memberAddrDetail')}" th:errors="*{memberAddrDetail}" class="fieldError"></span><br />
+        </div>
 
-    <div class="form-group mb-3">
-        <label th:for="memberPhone">연락처</label>
-        <input type="tel" name="memberPhone"   class="form-control" placeholder="연락처를 입력해주세요"/> <br />
-    </div>
+        <div class="form-group mb-3">
+            <label th:for="memberPhone">연락처</label>
+            <input type="tel" id="memberPhone" name="memberPhone" class="form-control" placeholder="연락처를 입력해주세요"/>
+            <span style="color:red" th:if="${#fields.hasErrors('memberPhone')}" th:errors="*{memberPhone}" class="fieldError"></span><br />
+        </div>
 
-    <div class="form-group mb-3">
-        <!-- 날짜 형변환  -->
-        <label th:for="memberBirth">생년월일</label>
-        <input type="date" name="memberBirth"/><br />
+        <div class="form-group mb-3">
+            <label th:for="memberBirth">생년월일</label>
+            <input type="date" name="memberBirth" th:value="${#dates.format(memberDTO.memberBirth,'yyyy-MM-dd')}"/><br />
+            <span style="color:red" th:if="${#fields.hasErrors('memberBirth')}" th:errors="*{memberBirth}" class="fieldError"></span><br />
+        </div>
 
-    </div>
-
-
-    <div class="mb-3" style="text-align: center">
-        <button type="submit" class="btn btn-primary" style="">회원등록</button>
-    </div>
+        <div class="mb-3" style="text-align: center">
+            <button type="submit" class="btn btn-primary">회원등록</button>
+        </div>
 
     </form>
 </div>

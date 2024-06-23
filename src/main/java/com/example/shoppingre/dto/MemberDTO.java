@@ -24,16 +24,21 @@ public class MemberDTO {
     // String자료형에서는 @NotEmpty, @NotBlank를 사용한다.
 
     private Long id;
+    private String memberNum;
+
     // 비밀번호는 패턴을 사용해야 한다.영문자와 특수문자 그리고 숫자를 사용하고 8글자 이상
     @Pattern(regexp = "^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[#!@$%^&*-+?~]).{8,}$",
             message = "영문자와 숫자 그리고 특수문자가 포함된 8글자 이상")
     private String memberPw;
     @NotBlank(message = "비밀번호 확인을 입력해주세요.")
     private String memberPwCon;
+    @NotBlank(message = "이름을 입력해주세요")
     private String memberName;
     @NotBlank(message = "주소를 입력하여 주세요.")
     private String memberAddr;
+    @NotBlank(message = "상세주소를 입력하여 주세요")
     private String memberAddrDetail; //detail이다
+    @NotBlank(message = "우편번호를 입력하여 주세요")
     private String memberPost;
     @NotBlank(message = "연락처을 입력하여 주세요.")
     private String memberPhone;
@@ -47,8 +52,7 @@ public class MemberDTO {
     private Date memberBirth;
 
 
-
-
+    private Integer point;
 
     //비밀번호와 비밀번호확인이 같은지 확인 하기 위한 메서드
     public boolean isMemberPwEqualsMemberPwCon() {
