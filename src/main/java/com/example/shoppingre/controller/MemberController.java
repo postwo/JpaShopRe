@@ -40,22 +40,28 @@ public class MemberController {
 
     //회원가입
     @PostMapping("memberRegist")
-    public String regist(@Valid MemberDTO memberDTO, BindingResult result){
+    public String regist(@Valid MemberDTO memberDTO, BindingResult result,Model model){
 
         // 오류가 있으면 오류 메시지를 html에 전달
         if (result.hasErrors()){
             return "member/memberForm";
         }
 
-        if (!memberDTO.isMemberPwEqualsMemberPwCon()){ //false값을 가지고 와서 true로 변경
-            //result.rejectValue(필드명,에러코드,메세지)
-            result.rejectValue("memberPwCon","memberDTO.memberPwCon","비밀번호 재확인이 틀렸습니다");
+        try{
+            if (!memberDTO.isMemberPwEqualsMemberPwCon()){ //false값을 가지고 와서 true로 변경
+                //result.rejectValue(필드명,에러코드,메세지)
+                result.rejectValue("memberPwCon","memberDTO.memberPwCon","비밀번호 재확인이 틀렸습니다");
+                return "member/memberForm";
+            }else{
+                memberInsertServcie.memberInsert(memberDTO);
+                //redirect 절대경로 써주기
+                return "redirect:/member/memberList";
+            }
+        }catch (IllegalStateException e){
+            model.addAttribute("errorMessage",e.getMessage());
             return "member/memberForm";
-        }else{
-            memberInsertServcie.memberInsert(memberDTO);
-            //redirect 절대경로 써주기
-            return "redirect:/member/memberList";
         }
+
 
 
     }

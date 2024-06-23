@@ -23,10 +23,15 @@
     <!-- 사용자 스크립트 추가 -->
     <th:block layout:fragment="script">
         <script th:inline="javascript">
+            // Thymeleaf에서 errorMessage 가져오기
+            var errorMessage = /*[[${errorMessage}]]*/ null;
+
+            // 한 번만 실행되도록 처리
             $(document).ready(function(){
-                let errorMessage = [[${errorMessage}]];
-                if(errorMessage != null){
+                if(errorMessage) {
                     alert(errorMessage);
+                    // alert를 한 번 했으면, errorMessage를 초기화하여 다시 alert하지 않도록 처리
+                    errorMessage = null;
                 }
             });
         </script>
