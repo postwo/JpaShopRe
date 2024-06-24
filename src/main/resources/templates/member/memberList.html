@@ -8,6 +8,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <script src="/js/member/checkBoxDel.js"></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -21,38 +23,64 @@
     <div class="container mt-5">
         <h2 class="mb-4">회원 리스트</h2>
 
-        <form action="memberList" method="get">
+        <form  action="memberList" method="get">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="회원 검색" name="searchWord" >
                 <button type="submit" class="btn btn-primary">검색</button>
             </div>
         </form>
+        <form action="membersDelete" method="psot" id="frm">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>회원번호</th>
+                    <th>이름</th>
+                    <th>이메일</th>
+                    <th>가입 날짜</th>
+                    <th>
+                        <input type="checkbox" id="checkBoxs"/>
+                        <input type="submit" value="전체 삭제" />
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="dto : ${dtos}">
+                    <td>[[${dto.memberNum}]]</td>
+                    <td>[[${dto.memberName}]]</td>
+                    <td>[[${dto.memberEmail}]]</td>
+                     <!-- localDateTime dateformat 방식이다 -->
+                    <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
+                    <td>
+                        <input type="checkbox" name="memDels" th:value="${dto.memberNum}" />
+                        <input type="button"  value="삭제" th:attr="onclick=|del('${dto.memberNum}');|"/>
+                    </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(dtos)}">
+                        <td colspan="5"  style="text-align: center; font-size: 18px;">검색 결과가 없습니다.</td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <table class="table table-bordered">
-            <thead>
+            <!-- 페이징 처리 -->
             <tr>
-                <th>회원번호</th>
-                <th>이름</th>
-                <th>이메일</th>
-                <th>가입 날짜</th>
+                <td colspan="5">
+                    <th:block th:if="${dtos.number > 0}">
+                        <a th:href="@{${'memberList'}(page=0, searchWord=${searchWord})}">[이전]</a>
+                    </th:block>
+
+                    <th:block th:each="pageNum : ${#numbers.sequence(0, dtos.totalPages - 1)}">
+                        <a th:href="@{${'memberList'}(page=${pageNum}, searchWord=${searchWord})}"
+                           th:text="${pageNum + 1}"
+                           th:class="${dtos.number == pageNum} ? 'active-link' : ''"></a>
+                    </th:block>
+
+                    <th:block th:if="${!dtos.last}">
+                        <a th:href="@{${'memberList'}(page=${dtos.totalPages - 1}, searchWord=${searchWord})}">[다음]</a>
+                    </th:block>
+                </td>
             </tr>
-            </thead>
-            <tbody>
-                <tr th:each="dto : ${dtos}">
-                <td>[[${dto.memberNum}]]</td>
-                <td>[[${dto.memberName}]]</td>
-                <td>[[${dto.memberEmail}]]</td>
-                 <!-- localDateTime dateformat 방식이다 -->
-                <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
-                </tr>
-                <tr th:if="${#lists.isEmpty(dtos)}">
-                    <td colspan="5"  style="text-align: center; font-size: 18px;">검색 결과가 없습니다.</td>
-                </tr>
-            </tbody>
-        </table>
+        </form>
     </div>
-
-
 </div>
 </body>
 </html>
