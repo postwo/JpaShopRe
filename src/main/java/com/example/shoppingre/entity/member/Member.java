@@ -16,7 +16,7 @@ import java.util.Date;
 @ToString(callSuper = true) //callSuper = true ==부모 클래스의 toString 메서드를 포함하겠다는 의미
 @Getter
 @Setter
-@Entity(name = "member")
+@Entity(name = "Member")
 public class Member extends BaseEntity {
 
 

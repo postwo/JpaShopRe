@@ -17,10 +17,12 @@ public class MemberListServcie {
     private final MemberRepository memberRepository;
 
     @Transactional(readOnly = true)
-    public List<MemberDTO> list() {
-    List<Member> list = memberRepository.findAll();
+    public List<MemberDTO> list(String searchWord) {
+    List<Member> list = memberRepository.findAllBySearchWord(searchWord);
+        System.out.println("========>>>"+list);
     List<MemberDTO> memlist = list.stream().map(MemberDTO::createMemberDTO)
             .collect(Collectors.toList());
+        System.out.println("==========>"+memlist);
     return memlist;
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -29,8 +30,11 @@ public class MemberController {
 
     //관리자 페이지에서 보여줄거
     @GetMapping("memberList")
-    public String list(Model model){
-        List<MemberDTO> memlist = memberListServcie.list();
+    public String list(Model model,
+                       //처음 페이지 열릴 때는 searchWord가 없으므로 페이지 오류가 생긴다
+                       // 오류를 방지 하기 위해서 필수가 아니라고 해준다
+                       @RequestParam(name = "searchWord", required = false) String searchWord){
+        List<MemberDTO> memlist = memberListServcie.list(searchWord);
         model.addAttribute("dtos",memlist);
         return "member/memberList";
     }

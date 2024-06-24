@@ -3,7 +3,9 @@ package com.example.shoppingre.repository;
 import com.example.shoppingre.entity.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member,Integer> {
@@ -18,5 +20,8 @@ public interface MemberRepository extends JpaRepository<Member,Integer> {
     // 이메일이 있을수도 있고 없을수도 있어서 optional을 사용
     Optional<Member> findByMemberEmail(String memberEmail);
 
-
+    //회원정보검색
+    @Query("SELECT m FROM Member m WHERE " +
+            "(COALESCE(:searchWord, '') = '' OR m.memberName LIKE %:searchWord% OR m.memberNum Like %:searchWord% OR m.memberEmail LIKE %:searchWord%)")
+    List<Member> findAllBySearchWord(@Param("searchWord") String searchWord);
 }
