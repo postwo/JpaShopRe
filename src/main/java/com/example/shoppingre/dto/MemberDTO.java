@@ -9,16 +9,17 @@ import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(callSuper = true) //callSuper = true ==부모 클래스의 toString 메서드를 포함하겠다는 의미
 @Getter
 @Setter
-public class MemberDTO {
+public class MemberDTO{
 
     // html에 전달할 오류 메세지를 command에서 설정해준다.
     // String자료형에서는 @NotEmpty, @NotBlank를 사용한다.
@@ -51,6 +52,7 @@ public class MemberDTO {
     @NotNull(message="생년월일을 입력해주세요.")
     private Date memberBirth;
 
+    private LocalDateTime regDate;
 
     private Integer point;
 
@@ -64,6 +66,7 @@ public class MemberDTO {
     public static MemberDTO createMemberDTO(Member member){
 
         MemberDTO memberdto = MemberDTO.builder()
+                .memberNum(member.getMemberNum())
                 .id(member.getId())
                 .memberEmail(member.getMemberEmail())
                 .memberAddr(member.getMemberAddr())
@@ -72,6 +75,7 @@ public class MemberDTO {
                 .memberName(member.getMemberName())
                 .memberPost(member.getMemberPost())
                 .memberPhone(member.getMemberPhone())
+                .regDate(member.getRegDate())
                 .build();
 
         return memberdto;

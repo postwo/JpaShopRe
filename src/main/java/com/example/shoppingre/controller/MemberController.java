@@ -3,6 +3,7 @@ package com.example.shoppingre.controller;
 import com.example.shoppingre.dto.MemberDTO;
 import com.example.shoppingre.service.member.MemberAutoNumService;
 import com.example.shoppingre.service.member.MemberInsertServcie;
+import com.example.shoppingre.service.member.MemberListServcie;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("member")
 @RequiredArgsConstructor
@@ -20,12 +23,15 @@ public class MemberController {
 
     private final MemberInsertServcie memberInsertServcie;
     private final MemberAutoNumService memberAutoNumService;
+    private final MemberListServcie memberListServcie;
 
 
 
     //관리자 페이지에서 보여줄거
     @GetMapping("memberList")
-    public String list(){
+    public String list(Model model){
+        List<MemberDTO> memlist = memberListServcie.list();
+        model.addAttribute("dtos",memlist);
         return "member/memberList";
     }
 

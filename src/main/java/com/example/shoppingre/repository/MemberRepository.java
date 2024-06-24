@@ -17,4 +17,6 @@ public interface MemberRepository extends JpaRepository<Member,Integer> {
     //이메일 중복 확인
     // 이메일이 있을수도 있고 없을수도 있어서 optional을 사용
     Optional<Member> findByMemberEmail(String memberEmail);
+
+
 }

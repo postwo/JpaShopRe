@@ -22,4 +22,6 @@ public abstract class BaseEntity extends BaseTimeEntity {
 
     @LastModifiedBy                 // 최종 수정자
     private String modifiedBy;      // 수정자
+
+
 }

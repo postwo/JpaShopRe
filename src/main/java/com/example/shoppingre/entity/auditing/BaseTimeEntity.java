@@ -25,5 +25,12 @@ public abstract class BaseTimeEntity { //추상클래스로 만든다
     @LastModifiedDate
     private LocalDateTime updateTime; //수정시간
 
+    @Override
+    public String toString() {
+        return "BaseTimeEntity{" +
+                "regDate=" + regDate +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 
 }
