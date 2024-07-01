@@ -24,8 +24,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3307/shoppingjpa?serverTimezone=Asia/Seoul
-    username: shoppingjpa
-    password: cos1234
+    username: ${USERNAME}
+    password: ${PASSWORD}
 
   jpa:
     open-in-view: true

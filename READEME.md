@@ -92,3 +92,5 @@ URL이 중복되어 http://localhost:8080/member/member/memberRegist와 같은 �
 상대 경로: 현재 URL을 기준으로 경로를 지정합니다.
 예: member/memberRegist
 지금 주어진 코드에서 상대 경로를 사용하고 있기 때문에, 현재 페이지의 URL을 기준으로 경로가 해석됩니다. 따라서, /member 페이지에서 상대 경로 member/memberRegist를 사용하면, 현재 페이지 URL에 상대 경로가 추가되어 /member/member/memberRegist가 됩니다.
+
+

@@ -36,7 +36,7 @@ public class MemberController {
                        //처음 페이지 열릴 때는 searchWord가 없으므로 페이지 오류가 생긴다
                        // 오류를 방지 하기 위해서 필수가 아니라고 해준다
                        @RequestParam(name = "searchWord", required = false) String searchWord
-                       ,  @PageableDefault(size = 1, sort = "memberNum", direction = Sort.Direction.DESC)Pageable pageable){
+                       ,  @PageableDefault(size = 10, sort = "memberNum", direction = Sort.Direction.DESC)Pageable pageable){
         Page<MemberDTO> memlist = memberListServcie.list(searchWord,pageable);
         model.addAttribute("dtos",memlist);
         return "member/memberList";
