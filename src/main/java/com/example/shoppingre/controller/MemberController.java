@@ -4,19 +4,19 @@ import com.example.shoppingre.dto.MemberDTO;
 import com.example.shoppingre.service.member.MemberAutoNumService;
 import com.example.shoppingre.service.member.MemberInsertServcie;
 import com.example.shoppingre.service.member.MemberListServcie;
+import com.example.shoppingre.service.member.MembersDeleteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("member")
@@ -27,6 +27,7 @@ public class MemberController {
     private final MemberInsertServcie memberInsertServcie;
     private final MemberAutoNumService memberAutoNumService;
     private final MemberListServcie memberListServcie;
+    private final MembersDeleteService membersDeleteService;
 
 
 
@@ -74,8 +75,25 @@ public class MemberController {
             model.addAttribute("errorMessage",e.getMessage());
             return "member/memberForm";
         }
+    }
 
 
+    //체크박스 삭제
+    @PostMapping("membersDelete")
+    public String dels(@RequestParam("memDels") String memDels[]){
+        membersDeleteService.MembersDel(memDels);
+        return "redirect:/member/memberList";
+    }
 
+    //일반 삭제 script로 reload 하기때문에 redirect가 필요없다
+    @DeleteMapping("/membersDelete/{memberNum}")
+    public ResponseEntity<String> deleteMember(@PathVariable("memberNum") String memberNum) {
+        try {
+            membersDeleteService.MemDel(memberNum);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            //서버에서 데이터베이스 접근 중에 예외가 발생하거나, 파일 시스템 접근에 문제가 발생하는 경우 등에 INTERNAL_SERVER_ERROR를 반환
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("멤버 삭제 실패: " + e.getMessage());
+        }
     }
 }

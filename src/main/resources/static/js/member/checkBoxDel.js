@@ -38,6 +38,26 @@ $(function(){
 
 });
 
-function del(memberNum){
-    location.href="memberDel?memberNum="+memberNum;
+
+//체크삭제
+
+
+
+//일반삭제
+function deleteMember(memberNum) {
+    if (confirm("이 멤버를 정말 삭제하시겠습니까?")) {
+        $.ajax({
+            url: '/member/membersDelete/' + memberNum, // 요청할 URL
+            type: 'DELETE', // HTTP 메서드
+            contentType: 'application/json', // 요청 본문의 데이터 타입
+            success: function(response) {
+                alert('멤버가 성공적으로 삭제되었습니다.');
+                location.reload(); // 페이지 새로고침
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                alert('멤버 삭제 실패: ' + xhr.responseText); // 에러 메시지를 alert로 표시
+            }
+        });
+    }
 }

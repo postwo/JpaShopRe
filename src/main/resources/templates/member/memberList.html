@@ -29,7 +29,8 @@
                 <button type="submit" class="btn btn-primary">검색</button>
             </div>
         </form>
-        <form action="membersDelete" method="psot" id="frm">
+
+        <form action="membersDelete" method="post" id="frm">
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -52,7 +53,7 @@
                     <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
                     <td>
                         <input type="checkbox" name="memDels" th:value="${dto.memberNum}" />
-                        <input type="button"  value="삭제" th:attr="onclick=|del('${dto.memberNum}');|"/>
+                        <input type="button"  value="삭제" th:attr="onclick=|deleteMember('${dto.memberNum}');|"/>
                     </td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(dtos)}">
