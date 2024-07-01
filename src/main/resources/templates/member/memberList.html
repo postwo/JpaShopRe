@@ -47,8 +47,8 @@
                 <tbody>
                     <tr th:each="dto : ${dtos}">
                     <td>[[${dto.memberNum}]]</td>
-                    <td>[[${dto.memberName}]]</td>
-                    <td>[[${dto.memberEmail}]]</td>
+                    <td><a th:href="|memberDetail?memberNum=${dto.memberNum}|">[[${dto.memberName}]]</a></td>
+                    <td><a th:href="@{memberDetail(memberNum=${dto.memberNum})}">[[${dto.memberEmail}]]</a></td>
                      <!-- localDateTime dateformat 방식이다 -->
                     <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
                     <td>

@@ -1,10 +1,7 @@
 package com.example.shoppingre.controller;
 
 import com.example.shoppingre.dto.MemberDTO;
-import com.example.shoppingre.service.member.MemberAutoNumService;
-import com.example.shoppingre.service.member.MemberInsertServcie;
-import com.example.shoppingre.service.member.MemberListServcie;
-import com.example.shoppingre.service.member.MembersDeleteService;
+import com.example.shoppingre.service.member.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,7 +25,7 @@ public class MemberController {
     private final MemberAutoNumService memberAutoNumService;
     private final MemberListServcie memberListServcie;
     private final MembersDeleteService membersDeleteService;
-
+    private final MemberDetailService memberDetailService;
 
 
     //관리자 페이지에서 보여줄거
@@ -95,5 +92,13 @@ public class MemberController {
             //서버에서 데이터베이스 접근 중에 예외가 발생하거나, 파일 시스템 접근에 문제가 발생하는 경우 등에 INTERNAL_SERVER_ERROR를 반환
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("멤버 삭제 실패: " + e.getMessage());
         }
+    }
+
+    //상세보기
+    @GetMapping("memberDetail")
+    public String memberDetail(@RequestParam("memberNum") String memberNum,Model model){
+        MemberDTO mem = memberDetailService.memberDetail(memberNum);
+        model.addAttribute("memberCommand",mem);
+        return "member/memberDetail";
     }
 }

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="content">
+    회원 상세정보
+    <br /> 회원번호 : [[${memberCommand.memberNum}]]
+    <br /> 이름 : [[${memberCommand.memberName}]]
+    <br /> 이메일 : [[${memberCommand.memberEmail}]]
+    <br /> 주소 : [[${memberCommand.memberAddr}]]
+    <br /> 상세주소 : [[${memberCommand.memberAddrDetail}]]
+    <br /> 우편번호 : [[${memberCommand.memberPost}]]
+    <br /> 연락처 : [[${memberCommand.memberPhone}]]
+    <br /> 등록일 : [[${#temporals.format(memberCommand.regDate, 'yyyy-MM-dd')}]] <!-- localDateTime은 이방식 사용하기  -->
+    <br /> 생년월일 : [[${#dates.format(memberCommand.memberBirth,'yyyy-MM-dd')}]]
+    <br /> 이메일 : [[${memberCommand.memberEmail}]]
+    <br />
+
+    <a th:href="@{|memberUpdate/${memberCommand.memberNum}|}">회원 수정</a> |
+    <!-- alert 창 띄울거-->
+    <a th:href="@{|memberdelete/${memberCommand.memberNum}|}">회원 강제 탈퇴</a> |
+    <a href="memberList">회원목록</a>
+</div>
+</body>
+</html>
